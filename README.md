@@ -1,0 +1,4 @@
+niftyCoin
+=========
+
+Centralized currency game
