@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 <div class="container-wide" ng-controller="homeCtrl">
-	<form action="/login" method="post">
+	<form ng-submit="login()" id="loginForm">
     <p>
       <label>Username:
         <input type="text" name="username" value="test" />
@@ -29,13 +29,52 @@
 
 {% block script %}
 <script type="text/javascript">
+var createGuid = function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+
+};
+
+var createOrGetGuestId = function(){
+  return $.Deferred(function( defer ) {
+    //delete localStorage.guestId
+    if(localStorage.guestId){
+      defer.resolve(localStorage.guestId)
+    }else{
+      localStorage.guestId = createGuid()
+      $.ajax({type: "POST", url: "/api/user", data: {guestId: localStorage.guestId}})
+      .then(function(resp){
+
+        defer.resolve(localStorage.guestId)
+      })
+    }
+  })
+}
+
+
+
 function homeCtrl($scope, $http) {
 	$scope.project = ["Hello", "World", "!"];
-}
-</script>
+  createOrGetGuestId().then(function(id){
+    console.log(id)
+  })
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io();
+  $scope.login = function(){
+    // console.log("hit")
+    //method="post" action="/login"
+    $.ajax({type: "POST", url: "/login", data: decodeURIComponent($.param({username: localStorage.guestId, password: "test"})),success: function(resp) {
+            window.location = resp.data;
+        },
+        error: function(resp) {
+            window.location = resp.data;
+        }})
+
+  }
+}
 </script>
 {% endblock %}

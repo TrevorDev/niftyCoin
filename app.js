@@ -1,5 +1,5 @@
 var config = require('./lib/config')
-    //var database = require('./lib/database')
+var database = require('./lib/database')
 var logger = require('koa-logger')
 var router = require('koa-router')
 var serve = require('koa-static')
@@ -20,10 +20,10 @@ var auth = require('./lib/auth.js');
 var bodyParser = require('koa-bodyparser')
 var session = require('koa-sess')
 //Add database
-// si = database.getSequelizeInstance()
-//si.sync()
+si = database.getSequelizeInstance()
+//si.sync({force: true})
 
-//var userCtrl = require('./controller/user')
+var userCtrl = require('./controller/user')
 
 //REMOVE IN PRODUCTION??
 swig.setDefaults(config.templateOptions)
@@ -42,12 +42,15 @@ auth.setRoutes(app);
 
 //DEFAULTS
 app.get('/', defaultPageLoad('index'))
+
+app.post('/api/user', userCtrl.create)
+
 app.get(/\/public\/*/, serve('.'))
 
 //SECURE
 var secured = new router()
 app.use(function*(next) {
-	console.log(this.session)
+	//console.log(this.session)
   if (this.isAuthenticated()) {
     yield next
   } else {
