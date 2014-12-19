@@ -1,29 +1,10 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="container-wide" ng-controller="homeCtrl">
-	<form ng-submit="login()" id="loginForm">
-    <p>
-      <label>Username:
-        <input type="text" name="username" value="test" />
-      </label>
-    </p>
-    <p>
-      <label>Password:
-        <input type="password" name="password" value="test" />
-      </label>
-    </p>
-    <p>
-      <button type="submit">Log In</button>
-    </p>
-    <p>
-      <a href="/auth/facebook">Sign in with Facebook</a> <a href="/auth/twitter">Sign in with Twitter</a> <a href="/auth/google">Sign in with Google</a>
-    </p>
-  </form>
+<div class="container-wide" ng-controller="homeCtrl" style="text-align:center;">
 
-	<h1>HELLO WORLD!</h1>
-	<div ng-repeat="item in project">
-		[[item]]
-	</div>
+
+	<h1>Loggin in</h1>
+	<span class="spinner" style="font-size:5em"><i class="glyphicon glyphicon-repeat gly-spin"></i></span>
 </div>
 {% endblock %}
 
@@ -59,22 +40,37 @@ var createOrGetGuestId = function(){
 
 
 function homeCtrl($scope, $http) {
-	$scope.project = ["Hello", "World", "!"];
   createOrGetGuestId().then(function(id){
-    console.log(id)
-  })
+    //console.log(id)
 
-  $scope.login = function(){
-    // console.log("hit")
-    //method="post" action="/login"
-    $.ajax({type: "POST", url: "/login", data: decodeURIComponent($.param({username: localStorage.guestId, password: "test"})),success: function(resp) {
+     $.ajax({
+        type: "POST",
+        url: "/login",
+        data: decodeURIComponent($.param({username: localStorage.guestId, password: "test"})),
+        success: function(resp) {
             window.location = resp.data;
         },
         error: function(resp) {
             window.location = resp.data;
-        }})
+        }
+      })
+  })
 
-  }
+  // $scope.login = function(){
+  //   // console.log("hit")
+  //   //method="post" action="/login"
+  //    $.ajax({
+  //       type: "POST",
+  //       url: "/login",
+  //       data: decodeURIComponent($.param({username: localStorage.guestId, password: "test"})),
+  //       success: function(resp) {
+  //           window.location = resp.data;
+  //       },
+  //       error: function(resp) {
+  //           window.location = resp.data;
+  //       }
+  //     })
+  // }
 }
 </script>
 {% endblock %}
