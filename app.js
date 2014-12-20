@@ -21,7 +21,7 @@ var bodyParser = require('koa-bodyparser')
 var session = require('koa-sess')
 //Add database
 si = database.getSequelizeInstance()
-//si.sync({force: true})
+si.sync({force: true})
 
 var userCtrl = require('./controller/user')
 
@@ -43,6 +43,7 @@ auth.setRoutes(app);
 //DEFAULTS
 app.get('/', defaultPageLoad('index'))
 
+app.get('/api/user/:id', userCtrl.get)
 app.post('/api/user', userCtrl.create)
 
 app.get(/\/public\/*/, serve('.'))
@@ -72,6 +73,7 @@ function defaultPageLoad(pageName, requiresLogin) {
 			this.redirect('/login')
 			return
 		}*/
+        //console.log(this.session.passport)
         var temp = {};
         this.body = yield render(pageName, temp)
     }

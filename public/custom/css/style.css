@@ -168,3 +168,7 @@ html, body {
   -o-transform: scale(1, -1);
   transform: scale(1, -1);
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+display: none !important;
+}

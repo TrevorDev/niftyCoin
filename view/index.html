@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="container-wide" ng-controller="homeCtrl" style="text-align:center;">
+<div class="container-wide" ng-controller="Ctrl" style="text-align:center;">
 
 
 	<h1>Loggin in</h1>
@@ -39,7 +39,7 @@ var createOrGetGuestId = function(){
 
 
 
-function homeCtrl($scope, $http) {
+function Ctrl($scope, $http) {
   createOrGetGuestId().then(function(id){
     //console.log(id)
 
@@ -48,10 +48,11 @@ function homeCtrl($scope, $http) {
         url: "/login",
         data: decodeURIComponent($.param({username: localStorage.guestId, password: "test"})),
         success: function(resp) {
-            window.location = resp.data;
+            localStorage.userId = resp.data.userId
+            window.location = resp.data.redirect;
         },
         error: function(resp) {
-            window.location = resp.data;
+          alert("unable to login :(")
         }
       })
   })

@@ -7,11 +7,19 @@ exports.getUsers = function*() {
 }
 
 exports.create = function*(){
-	console.log("hit")
 	//var params = yield parse(this)
 	// console.log(this.query)
 	// console.log(this.params)
 	console.log(this.request.body)
 	yield User.create({guestId: this.request.body.guestId});
 	return this.jsonResp(200);
+}
+
+exports.get = function*(){
+	var user = yield User.find(this.params.id);
+	var resp = user.dataValues
+	delete resp.guestId
+	delete resp.password
+	delete resp.email
+	return this.jsonResp(200, resp);
 }
