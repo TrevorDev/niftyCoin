@@ -21,7 +21,7 @@ var bodyParser = require('koa-bodyparser')
 var session = require('koa-sess')
 //Add database
 si = database.getSequelizeInstance()
-si.sync({force: true})
+//si.sync({force: true})
 
 var userCtrl = require('./controller/user')
 
@@ -36,30 +36,35 @@ app.use(jsonResp())
 app.use(router(app))
 
 //ROUTES --------------------------------------------------------------------------------------------------------------------
-
-//AUTH
-auth.setRoutes(app);
-
-//DEFAULTS
-app.get('/', defaultPageLoad('index'))
-
-app.get('/api/user/:id', userCtrl.get)
-app.post('/api/user', userCtrl.create)
-
-app.get(/\/public\/*/, serve('.'))
-
 //SECURE
 var secured = new router()
 app.use(function*(next) {
-	//console.log(this.session)
+    //console.log(this.session)
   if (this.isAuthenticated()) {
     yield next
   } else {
     this.redirect('/')
   }
 })
+//AUTH
+auth.setRoutes(app);
 
+//DEFAULTS
+app.get(/\/public\/*/, serve('.'))
+app.get('/', defaultPageLoad('index'))
 secured.get('/account',defaultPageLoad('account'))
+secured.get('/send',defaultPageLoad('send'))
+
+//api
+app.get('/api/user/:id', userCtrl.get)
+secured.post('/api/user/:id/send/coins', userCtrl.sendCoins)
+app.post('/api/user', userCtrl.create)
+
+
+
+
+
+
 
 app.use(secured.middleware())
 

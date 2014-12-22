@@ -1,6 +1,10 @@
 var User = require('./../model/user');
 var parse = require('co-body')
 
+var database = require('./../lib/database');
+var sequelize = require('sequelize');
+var si = database.getSequelizeInstance();
+
 exports.getUsers = function*() {
 	var users = yield User.findAll({})
 	return this.jsonResp(200,{users: users});
@@ -22,4 +26,22 @@ exports.get = function*(){
 	delete resp.password
 	delete resp.email
 	return this.jsonResp(200, resp);
+}
+
+exports.sendCoins = function*(){
+	var toUser = yield User.find(this.params.id);
+	if(!toUser){
+		return this.jsonResp(40, "User to send to not found");
+	}
+	var amt = parseInt(this.request.body.coins);
+	if(isNaN(amt) || amt <= 0){
+		return this.jsonResp(400, "Invalid amount");
+	}
+	var rowCount = yield User.update({coins: sequelize.literal("coins - "+amt)}, {where: {id: this.session.passport.user,coins: {gte: amt}}})
+	if(rowCount <= 0){
+		return this.jsonResp(400, "Insufficiant coins");
+	}
+	yield toUser.increment({coins: amt})
+	
+	return this.jsonResp(200);
 }

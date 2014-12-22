@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container-wide" ng-controller="Ctrl">
+	<div ng-show="user == null">
+		<span class="spinner" style="font-size:5em"><i class="glyphicon glyphicon-repeat gly-spin"></i></span>
+	</div>
+	<div ng-show="user != null">
+		<h2>Account #: [[user.id]]</h2>
+		<h2>Coins: [[user.coins]]</h2>
+		<h2>Inventory:</h2>
+
+		<form ng-submit="sendCoins()">
+			<h1>Send Coins</h1>
+			<label>Amount:</label>
+			<input type="text" id="sendAmount">
+			<label>To account #:</label>
+			<input type="text" id="sendUserId">
+			<button type="sumbit">Submit</button>
+		</form>
+	</div>
+	<!-- <a href="/logout">logout</a> -->
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+function Ctrl($scope, $http) {
+	$scope.sendCoins = function(){
+		$.ajax({
+        type: "POST",
+        url: "/api/user/"+$("#sendUserId").val()+"/send/coins",
+        data: {coins: $("#sendAmount").val()},
+        success: function(resp) {
+        	console.log(resp)
+        },
+        error: function(resp) {
+          console.log(resp)
+        }
+      })
+		console.log();
+		return false
+	}
+
+	$.get("/api/user/"+localStorage.userId)
+	.then(function(resp){
+		//console.log(resp.data.coins)
+		$scope.user = resp.data
+		$scope.$apply()
+		// console.log(data)
+	})
+}
+</script>
+{% endblock %}
