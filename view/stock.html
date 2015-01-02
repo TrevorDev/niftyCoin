@@ -7,6 +7,9 @@
 	<div ng-show="user != null">
 		<h2>Account #: [[user.id]]</h2>
 		<h2>Coins: [[user.coins]]</h2>
+		<div ng-repeat="stock in stocks">
+			<span>[[stock.name]] - [[stock.price]] C</span>
+		</div>
 		<!--<h2>Inventory:</h2>-->
 	</div>
 	<!-- <a href="/logout">logout</a> -->
@@ -20,6 +23,14 @@ function Ctrl($scope, $http) {
 	.then(function(resp){
 		//console.log(resp.data.coins)
 		$scope.user = resp.data
+		$scope.$apply()
+		// console.log(data)
+	})
+
+	$.get("/api/stock")
+	.then(function(resp){
+		//console.log(resp.data.coins)
+		$scope.stocks = resp.data
 		$scope.$apply()
 		// console.log(data)
 	})

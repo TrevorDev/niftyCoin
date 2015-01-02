@@ -15,8 +15,9 @@ exports.create = function*(){
 	// console.log(this.query)
 	// console.log(this.params)
 	console.log(this.request.body)
-	yield User.create({guestId: this.request.body.guestId});
-	return this.jsonResp(200);
+	var bonus = 200;
+	yield User.create({guestId: this.request.body.guestId, coins: bonus});
+	return this.jsonResp(200, {bonus: bonus});
 }
 
 exports.get = function*(){

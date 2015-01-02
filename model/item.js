@@ -4,14 +4,15 @@ var si = database.getSequelizeInstance();
 
 var Item = si.define('Item', 
 	{
-	  forSale: {
-	  	type: sequelize.BOOLEAN,
-	  	defaultValue: true
-	  },
-	  price: {
+	  forSaleAmmount: {
 	  	type: sequelize.BIGINT,
 	  	defaultValue: 0
-	  }
+	  },
+	  forSalePrice: {
+	  	type: sequelize.BIGINT,
+	  	defaultValue: 0
+	  },
+	  amountOwned: sequelize.BIGINT
 	}, {
 		classMethods: {
 

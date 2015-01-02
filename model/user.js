@@ -23,6 +23,10 @@ var User = si.define('User',
 	  coins: {
 	  	type: sequelize.BIGINT,
 	  	defaultValue: 0
+	  },
+	  lastDailyBonusReceived: {
+	  	type: sequelize.DATE,
+	  	defaultValue: sequelize.NOW
 	  }
 	}, {
 		classMethods: {

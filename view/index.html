@@ -52,6 +52,8 @@ function Ctrl($scope, $http) {
             window.location = resp.data.redirect;
         },
         error: function(resp) {
+          //REMOVE IN PRODUCTION~!!!!
+           delete localStorage.guestId
           alert("unable to login :(")
         }
       })

@@ -21,9 +21,10 @@ var bodyParser = require('koa-bodyparser')
 var session = require('koa-sess')
 //Add database
 si = database.getSequelizeInstance()
-//si.sync({force: true})
+si.sync({force: true})
 
 var userCtrl = require('./controller/user')
+var stockCtrl = require('./controller/stock')
 
 //REMOVE IN PRODUCTION??
 swig.setDefaults(config.templateOptions)
@@ -54,11 +55,16 @@ app.get(/\/public\/*/, serve('.'))
 app.get('/', defaultPageLoad('index'))
 secured.get('/account',defaultPageLoad('account'))
 secured.get('/send',defaultPageLoad('send'))
+secured.get('/stock',defaultPageLoad('stock'))
+secured.get('/market',defaultPageLoad('comingSoon'))
+secured.get('/casino',defaultPageLoad('comingSoon'))
 
 //api
 app.get('/api/user/:id', userCtrl.get)
 secured.post('/api/user/:id/send/coins', userCtrl.sendCoins)
 app.post('/api/user', userCtrl.create)
+app.get('/api/stockMake', stockCtrl.create)
+app.get('/api/stock', stockCtrl.get)
 
 
 
@@ -104,3 +110,7 @@ io.on('connection', function(socket) {
 
 server.listen(config.appPort);
 console.log('Started ----------------------------------------------' + config.appPort)
+
+
+//START CRON JOBS
+require('./cron/stock');

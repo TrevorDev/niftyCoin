@@ -57,43 +57,43 @@
         <h1 style="margin-top:0px;text-align:center;font-weight:900;color:#8BD9E8;font-size:2em">Please enable javascript to use this website.</h1>
     </noscript>
     <div class="noscript-hide">
-    <div class="navbar navbar-default navbar-static-top">
-      <div class="container-wide">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">Nifty Coin <i style="font-size:1.0em" class="glyphicon glyphicon-copyright-mark"></i></a>
-        </div>
-        <div class="navbar-collapse collapse">
-        	<ul class="nav navbar-nav">
-            <!--<li class="active"><a href="/browse">ONE</a></li>
-            <li class="active"><a href="/create">TWO</a></li>
-            {% if email %}
-            <li class="active"><a href="/dashboard">Dashboard</a></li>
-            {% endif %}-->
-          </ul>
-          <!--<ul class="nav navbar-nav navbar-right">
-            {% if email %}
-              <li class="dropdown">
-                <a href="/dashboard"><i style="font-size:1.0em" class="fa fa-user"></i> {{email}}</b></a>
-              </li>
-              <li class="active"><a href="/logout">Logout</a></li>
-            {% else %}
-              <li class="active"><a href="/login">Login / Sign Up</a></li>
-            {% endif %}
-          </ul>-->
+      <div class="navbar navbar-default navbar-static-top">
+        <div class="container-wide">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nifty Coin <i style="font-size:1.0em" class="glyphicon glyphicon-copyright-mark"></i></a>
+          </div>
+          <div class="navbar-collapse collapse">
+          	<ul class="nav navbar-nav">
+              <li class="active"><a href="/account">Account</a></li>
+              <li class="active"><a href="/send">Send Coins</a></li>
+              <li class="active"><a href="/stock">Stocks</a></li>
+              <li class="active"><a href="/market">Item Market</a></li>
+              <li class="active"><a href="/casino">Casino</a></li>
+              <!--<li class="active"><a href="/browse">ONE</a></li>
+              <li class="active"><a href="/create">TWO</a></li>
+              {% if email %}
+              <li class="active"><a href="/dashboard">Dashboard</a></li>
+              {% endif %}-->
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+              <span class="navbar-brand" id="userCount" href="#" style="float: right;color: #FFFFFF;">Users Online: 1189</span>
+              <span class="navbar-brand" style="font-size: 10px;float: right;color: #FFFFFF;">Alpha Build 0.0.15</span>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div id="errorDiv" class="alert alert-warning" style="display: none">Error: <span id="errorMsg"></span></div>
-
-    {% block body %}{% endblock %}
-    
-    {% block script %}{% endblock %}
+      <div id="errorDiv" class="alert alert-warning" style="display: none">Error: <span id="errorMsg"></span>
+      </div>
+      <div style="width: 490px; margin-left: auto; margin-right: auto;">
+        {% block body %}{% endblock %}
+      </div>
+      {% block script %}{% endblock %}
     </div>
   </body>
 </html>

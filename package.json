@@ -38,7 +38,8 @@
 		"passport-google": "x.x",
 		"stripe": "x.x",
 		"koa-bodyparser": "x.x",
-		"koa-sess":"x.x"
+		"koa-sess":"x.x",
+		"cron":"x.x"
 	},
 	"testing": "mocha"
 }

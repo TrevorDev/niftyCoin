@@ -5,16 +5,19 @@
 		<span class="spinner" style="font-size:5em"><i class="glyphicon glyphicon-repeat gly-spin"></i></span>
 	</div>
 	<div ng-show="user != null">
-		<h2>Account #: [[user.id]]</h2>
+		<h2>Your Account #: [[user.id]]</h2>
 		<h2>Coins: [[user.coins]]</h2>
-		<h2>Inventory:</h2>
 
 		<form ng-submit="sendCoins()">
 			<h1>Send Coins</h1>
 			<label>Amount:</label>
+			<br>
 			<input type="text" id="sendAmount">
+			<br>
 			<label>To account #:</label>
+			<br>
 			<input type="text" id="sendUserId">
+			<br>
 			<button type="sumbit">Submit</button>
 		</form>
 	</div>
