@@ -29,6 +29,16 @@ exports.get = function*(){
 	return this.jsonResp(200, resp);
 }
 
+exports.requestDailyBonus = function*(){
+	var user = yield User.find(this.session.passport.user);
+	var resp = user.dataValues
+	console.log(resp)
+	delete resp.guestId
+	delete resp.password
+	delete resp.email
+	return this.jsonResp(200, resp);
+}
+
 exports.sendCoins = function*(){
 	var toUser = yield User.find(this.params.id);
 	if(!toUser){

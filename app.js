@@ -21,7 +21,7 @@ var bodyParser = require('koa-bodyparser')
 var session = require('koa-sess')
 //Add database
 si = database.getSequelizeInstance()
-si.sync({force: true})
+//si.sync({force: true})
 
 var userCtrl = require('./controller/user')
 var stockCtrl = require('./controller/stock')
@@ -60,7 +60,8 @@ secured.get('/market',defaultPageLoad('comingSoon'))
 secured.get('/casino',defaultPageLoad('comingSoon'))
 
 //api
-app.get('/api/user/:id', userCtrl.get)
+app.get('/api/user/:id/show', userCtrl.get)
+secured.post('/api/user/requestDailyBonus', userCtrl.requestDailyBonus)
 secured.post('/api/user/:id/send/coins', userCtrl.sendCoins)
 app.post('/api/user', userCtrl.create)
 app.get('/api/stockMake', stockCtrl.create)
@@ -113,4 +114,4 @@ console.log('Started ----------------------------------------------' + config.ap
 
 
 //START CRON JOBS
-require('./cron/stock');
+//require('./cron/stock');

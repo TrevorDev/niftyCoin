@@ -19,7 +19,7 @@
 {% block script %}
 <script type="text/javascript">
 function Ctrl($scope, $http) {
-	$.get("/api/user/"+localStorage.userId)
+	app.model.user.show(localStorage.userId)
 	.then(function(resp){
 		//console.log(resp.data.coins)
 		$scope.user = resp.data
@@ -27,7 +27,7 @@ function Ctrl($scope, $http) {
 		// console.log(data)
 	})
 
-	$.get("/api/stock")
+	app.model.stock.getAllCurrent()
 	.then(function(resp){
 		//console.log(resp.data.coins)
 		$scope.stocks = resp.data

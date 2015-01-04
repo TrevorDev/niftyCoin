@@ -29,22 +29,18 @@
 <script type="text/javascript">
 function Ctrl($scope, $http) {
 	$scope.sendCoins = function(){
-		$.ajax({
-        type: "POST",
-        url: "/api/user/"+$("#sendUserId").val()+"/send/coins",
-        data: {coins: $("#sendAmount").val()},
-        success: function(resp) {
-        	console.log(resp)
-        },
-        error: function(resp) {
-          console.log(resp)
-        }
-      })
-		console.log();
+		app.model.user.sendCoins($("#sendUserId").val(), $("#sendAmount").val())
+		.then(function(resp){
+			console.log(resp)
+		})
+		.fail(function(resp){
+			console.log("err")
+			console.log(resp)
+		})
 		return false
 	}
 
-	$.get("/api/user/"+localStorage.userId)
+	app.model.user.show(localStorage.userId)
 	.then(function(resp){
 		//console.log(resp.data.coins)
 		$scope.user = resp.data

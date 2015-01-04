@@ -5,6 +5,12 @@
 		<span class="spinner" style="font-size:5em"><i class="glyphicon glyphicon-repeat gly-spin"></i></span>
 	</div>
 	<div ng-show="user != null">
+		<div style="font-size: 2em">Your Daily Prize: </div>
+		<div style="display: inline-block;font-size: 3em">&gt;</div>
+		<div style="overflow:hidden; height: 3.5em; display: inline-block;">
+			<div id="textMachine" style="font-size: 3em">
+			</div>
+		</div>
 		<h2>Account #: [[user.id]]</h2>
 		<h2>Coins: [[user.coins]]</h2>
 		<!--<h2>Inventory:</h2>-->
@@ -14,15 +20,41 @@
 {% endblock %}
 
 {% block script %}
+<script src="/public/vendor/jquery/jquery.slotmachine.min.js"></script>
 <script type="text/javascript">
 function Ctrl($scope, $http) {
-	$.get("/api/user/"+localStorage.userId)
+	app.model.user.show(localStorage.userId)
 	.then(function(resp){
 		//console.log(resp.data.coins)
 		$scope.user = resp.data
 		$scope.$apply()
 		// console.log(data)
 	})
+	app.model.user.requestDailyBonus()
+	.then(function(resp){
+		//console.log(resp.data.coins)
+		console.log(resp)
+		runSlotMachine();
+		$scope.$apply()
+		// console.log(data)
+	})
+}
+
+var runSlotMachine = function(prizes){
+	if(!prizes){
+		prizes = ["2 coins", "Magic Want", "Candy", "10 coins","200 coins"]
+	}
+	$.each(prizes, function(i, e){
+		$("#textMachine").append("<div>"+e+"</div>")
+	})
+	var machine = $("#textMachine").slotMachine({
+		active	: 1,
+		delay	: 1000,
+		//auto	: 1500,
+		//repeat: false,
+		randomize: function(){return prizes.length-1;}
+	});
+	machine.shuffle( 10 );
 }
 </script>
 {% endblock %}

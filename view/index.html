@@ -28,7 +28,7 @@ var createOrGetGuestId = function(){
       defer.resolve(localStorage.guestId)
     }else{
       localStorage.guestId = createGuid()
-      $.ajax({type: "POST", url: "/api/user", data: {guestId: localStorage.guestId}})
+      app.model.user.create(localStorage.guestId)
       .then(function(resp){
 
         defer.resolve(localStorage.guestId)
